@@ -14,6 +14,12 @@ def main():
 
     dt  = 0
 
+    updatable = pygame.sprite.Group()
+
+    drawable = pygame.sprite.Group()
+
+    player.Player.containers = (updatable, drawable)
+
     playerRender = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
@@ -21,8 +27,10 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
+        updatable.update(dt)
         screen.fill((0, 0, 0))
-        playerRender.draw(screen)
+        for drw in drawable:
+            drw.draw(screen)
         pygame.display.flip()
         delta = time.tick(60)
         dt = delta / 1000.0
