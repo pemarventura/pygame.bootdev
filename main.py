@@ -2,6 +2,8 @@
 
 import pygame
 import player
+import asteroid
+import asteroidField
 
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, ASTEROID_MIN_RADIUS, ASTEROID_KINDS, ASTEROID_SPAWN_RATE, ASTEROID_MAX_RADIUS
 
@@ -20,6 +22,14 @@ def main():
 
     player.Player.containers = (updatable, drawable)
 
+    asteroids = pygame.sprite.Group()
+
+    asteroid.Asteroid.containers = (asteroids, updatable, drawable)
+
+    asteroidField.AsteroidField.containers = updatable
+
+    asteroidfieldRender = asteroidField.AsteroidField()
+    
     playerRender = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
     while True:
@@ -28,6 +38,10 @@ def main():
                 pygame.quit()
                 return
         updatable.update(dt)
+        for ast in asteroids:
+            if ast.checkCollision(playerRender):
+                print("Game over!")
+                pygame.quit()
         screen.fill((0, 0, 0))
         for drw in drawable:
             drw.draw(screen)
