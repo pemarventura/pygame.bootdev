@@ -47,6 +47,10 @@ def main():
             if ast.checkCollision(playerRender):
                 print("Game over!")
                 pygame.quit()
+            for sht in shotable:
+                if sht.checkCollision(ast):
+                    ast.split()
+                    sht.kill()
 
         screen.fill((0, 0, 0))
         for drw in drawable:
