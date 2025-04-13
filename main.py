@@ -4,6 +4,7 @@ import pygame
 import player
 import asteroid
 import asteroidField
+import shot
 
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, ASTEROID_MIN_RADIUS, ASTEROID_KINDS, ASTEROID_SPAWN_RATE, ASTEROID_MAX_RADIUS
 
@@ -23,7 +24,7 @@ def main():
     player.Player.containers = (updatable, drawable)
 
     asteroids = pygame.sprite.Group()
-
+    
     asteroid.Asteroid.containers = (asteroids, updatable, drawable)
 
     asteroidField.AsteroidField.containers = updatable
@@ -31,6 +32,10 @@ def main():
     asteroidfieldRender = asteroidField.AsteroidField()
     
     playerRender = player.Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    shotable = pygame.sprite.Group()
+
+    shot.Shot.containers = (shotable, drawable, updatable)
 
     while True:
         for event in pygame.event.get():
@@ -42,6 +47,7 @@ def main():
             if ast.checkCollision(playerRender):
                 print("Game over!")
                 pygame.quit()
+
         screen.fill((0, 0, 0))
         for drw in drawable:
             drw.draw(screen)
